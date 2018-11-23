@@ -127,6 +127,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	private DocumentLoader documentLoader = new DefaultDocumentLoader();
 
+	/**
+	 * EntityResolver 解析器
+	 */
 	@Nullable
 	private EntityResolver entityResolver;
 
@@ -270,14 +273,36 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Return the EntityResolver to use, building a default resolver
 	 * if none specified.
+	 *
+	 * EntityResolver 的作用就是，通过实现它，应用可以自定义如何寻找【验证文件】的逻辑。
 	 */
 	protected EntityResolver getEntityResolver() {
+
+// publicId ：被引用的外部实体的公共标识符，如果没有提供，则返回 null
+// systemId ：被引用的外部实体的系统标识符。
+//		public interface EntityResolver {
+//			public abstract InputSource resolveEntity (String publicId, String systemId)
+//					throws SAXException, IOException;
+//
+//		}
+
+//		这两个参数的实际内容和具体的验证模式的关系如下：
+//
+//		XSD 验证模式
+//		publicId：null
+//		systemId：http://www.springframework.org/schema/beans/spring-beans.xsd
+
+//		DTD 验证模式
+//		publicId：-//SPRING//DTD BEAN 2.0//EN
+//		systemId：http://www.springframework.org/dtd/spring-beans.dtd
+
 		if (this.entityResolver == null) {
 			// Determine default EntityResolver to use.
 			ResourceLoader resourceLoader = getResourceLoader();
 			if (resourceLoader != null) {
 				this.entityResolver = new ResourceEntityResolver(resourceLoader);
 			} else {
+				//该 Resolver 委托给默认的 BeansDtdResolver 和 PluggableSchemaResolver 。
 				this.entityResolver = new DelegatingEntityResolver(getBeanClassLoader());
 			}
 		}
