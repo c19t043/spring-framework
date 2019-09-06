@@ -625,6 +625,9 @@ public abstract class StringUtils {
 	}
 
 	/**
+	 * 像"path/"这样的标准路径是被禁止的，内部使用简单的点。
+	 * 结果对于比较路径来说是方便的。
+	 * 其他的用处，注意windows的分割符是用斜线("\")代替的
 	 * Normalize the path by suppressing sequences like "path/.." and
 	 * inner simple dots.
 	 * <p>The result is convenient for path comparison. For other uses,
@@ -638,10 +641,10 @@ public abstract class StringUtils {
 		}
 		String pathToUse = replace(path, WINDOWS_FOLDER_SEPARATOR, FOLDER_SEPARATOR);
 
-		// Strip prefix from path to analyze, to not treat it as part of the
-		// first path element. This is necessary to correctly parse paths like
-		// "file:core/../core/io/Resource.class", where the ".." should just
-		// strip the first "core" directory while keeping the "file:" prefix.
+		// 去掉路径前缀用作分析，不将其看作路径的部分
+		// 正确解析路径路径是必要的，
+		// 就像"file:core/../core/io/Resource.class"，其中".."应该去掉第一个"core"目录，
+		// 同时保持“file:”前缀
 		int prefixIndex = pathToUse.indexOf(':');
 		String prefix = "";
 		if (prefixIndex != -1) {

@@ -530,6 +530,8 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 * 如果给定值的类型是可以指定的。
+	 *
 	 * Determine if the given type is assignable from the given value,
 	 * assuming setting by reflection. Considers primitive wrapper classes
 	 * as assignable to the corresponding primitive types.

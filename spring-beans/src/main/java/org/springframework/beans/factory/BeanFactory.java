@@ -21,6 +21,8 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
+ * 访问spring bean 容器的根接口。
+ *
  * The root interface for accessing a Spring bean container.
  * This is the basic client view of a bean container;
  * further interfaces such as {@link ListableBeanFactory} and
@@ -116,6 +118,8 @@ import org.springframework.lang.Nullable;
 public interface BeanFactory {
 
 	/**
+	 * 用于间接引用一个实例，和从beans中区分FactoryBean。
+	 * 例如，如果bean命名为一个FactoryBean，那么通过工厂返回的将是工厂，而不是实例
 	 * Used to dereference a {@link FactoryBean} instance and distinguish it from
 	 * beans <i>created</i> by the FactoryBean. For example, if the bean named
 	 * {@code myJndiObject} is a FactoryBean, getting {@code &myJndiObject}
@@ -125,6 +129,12 @@ public interface BeanFactory {
 
 
 	/**
+	 * 返回一个指定bean的实例，它可能是共享的，或者独立的。
+	 * 这个方法允许一个spring BeanFactory用作替换单例或原型设计模式。
+	 * 如果是单例beans，调用者应保留返回对象的引用。
+	 * 使别名转变为符合规范的bean名。
+	 * 如果在这个工厂实例中未能查找到，将到父级工厂中查找。
+	 * 如果指定名，没有bean definition，将抛出异常
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * <p>This method allows a Spring BeanFactory to be used as a replacement for the
 	 * Singleton or Prototype design pattern. Callers may retain references to
@@ -140,6 +150,9 @@ public interface BeanFactory {
 	Object getBean(String name) throws BeansException;
 
 	/**
+	 * 这个方法与#getBean(String)方法的行为是一致的，但是提供了一个类型安全的标准，
+	 * 如果bean不是必要的类型，将抛出异常。
+	 * 这意味着转换结果正确不能抛出ClassCastException。
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * <p>Behaves the same as {@link #getBean(String)}, but provides a measure of type
 	 * safety by throwing a BeanNotOfRequiredTypeException if the bean is not of the
@@ -160,6 +173,7 @@ public interface BeanFactory {
 	<T> T getBean(String name, @Nullable Class<T> requiredType) throws BeansException;
 
 	/**
+	 * 在bean definition中，允许明确指定构造参数，或工厂方法参数，覆盖默认指定的任意参数
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * <p>Allows for specifying explicit constructor arguments / factory method arguments,
 	 * overriding the specified default arguments (if any) in the bean definition.
@@ -176,6 +190,11 @@ public interface BeanFactory {
 	Object getBean(String name, Object... args) throws BeansException;
 
 	/**
+	 * 匹配给定对象类型唯一实例，如果有，就返回bean实例。
+	 * 这个方法进入ListableBeanFactory中根据类型查找，
+	 * 也可以翻译成基于给定类型的名称查找。
+	 * 通过beans集合，更多丰富的检查操作，使用ListableBeanFactory，或BeanFactoryUtils
+	 * 如果未找到指定类型的bean，或者找到多个指定类型的bean，或者bean不能被创建，将抛出异常。
 	 * Return the bean instance that uniquely matches the given object type, if any.
 	 * <p>This method goes into {@link ListableBeanFactory} by-type lookup territory
 	 * but may also be translated into a conventional by-name lookup based on the name
@@ -192,6 +211,7 @@ public interface BeanFactory {
 	<T> T getBean(Class<T> requiredType) throws BeansException;
 
 	/**
+	 * 与#getBean(Class)行为一致，但会根据参数创建BeanDefinition实例
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * <p>Allows for specifying explicit constructor arguments / factory method arguments,
 	 * overriding the specified default arguments (if any) in the bean definition.

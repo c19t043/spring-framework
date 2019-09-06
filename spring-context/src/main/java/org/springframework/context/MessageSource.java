@@ -21,6 +21,7 @@ import java.util.Locale;
 import org.springframework.lang.Nullable;
 
 /**
+ * 接口策略是为解决这个消息，提供参数化和国际化支持。
  * Strategy interface for resolving messages, with support for the parameterization
  * and internationalization of such messages.
  *
@@ -40,6 +41,11 @@ import org.springframework.lang.Nullable;
 public interface MessageSource {
 
 	/**
+	 * 尝试解决消息。
+	 * 如果消息没找到，就返回默认消息
+	 * @param code code用于查找，例如'calculator.noRateSet'。
+	 *             鼓励这个类的用户们，基于丰富的符合规范的类名，来命名消息名，
+	 *             这样避免冲突，最大程度的保证意义清晰
 	 * Try to resolve the message. Return default message if no message was found.
 	 * @param code the code to lookup up, such as 'calculator.noRateSet'. Users of
 	 * this class are encouraged to base message names on the relevant fully

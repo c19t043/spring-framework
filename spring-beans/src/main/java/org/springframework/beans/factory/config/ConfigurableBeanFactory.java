@@ -131,6 +131,10 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	boolean isCacheBeanMetadata();
 
 	/**
+	 * 指定bean定义值表达式的解决策略
+	 * 默认情况下，一个BeanFactory内是没有激活的表达式支持。
+	 * 在这，一个应用上下文通常将设置一个标准的表达式策略
+	 * 在一个统一的EL兼容方式，支持"#{...}"表达式
 	 * Specify the resolution strategy for expressions in bean definition values.
 	 * <p>There is no expression support active in a BeanFactory by default.
 	 * An ApplicationContext will typically set a standard expression strategy
@@ -161,6 +165,11 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	ConversionService getConversionService();
 
 	/**
+	 * 添加一个PropertyEditorRegistrar，使用与所有bean创建处理。
+	 * 例如一个登记员创建一个新的PropertyEditor实例，
+	 * 并在给定注册表中注册他们，每个bean创建时尝试刷新
+	 * 这样避免了在自定义编辑器上需要同步
+	 * 因此，通常优先使用这个方法替代{#registerCustomEditor}
 	 * Add a PropertyEditorRegistrar to be applied to all bean creation processes.
 	 * <p>Such a registrar creates new PropertyEditor instances and registers them
 	 * on the given registry, fresh for each bean creation attempt. This avoids
@@ -233,6 +242,12 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	String resolveEmbeddedValue(String value);
 
 	/**
+	 * 通过这个工厂添加一个新的BeanPostProcessor，用于bean创建。
+	 * 在工厂配置期间被调用。
+	 * 在此处提交的Post-processor将按照注册顺序应用。
+	 * 任何顺序语义表达，即使实现了{@link Ordered}接口，将被忽视。
+	 * 注意：自动检测后置处理器，例如，作为一个ApplicationContext的beans
+	 * 以编程方式注册后，将自动被应用
 	 * Add a new BeanPostProcessor that will get applied to beans created
 	 * by this factory. To be invoked during factory configuration.
 	 * <p>Note: Post-processors submitted here will be applied in the order of

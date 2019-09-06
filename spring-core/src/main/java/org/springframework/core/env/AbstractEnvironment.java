@@ -476,7 +476,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 
 	//---------------------------------------------------------------------
-	// Implementation of ConfigurablePropertyResolver interface
+	// Implementation of ConfigurablePropertyResolver interfaceAbstractPropertyResolver
 	//---------------------------------------------------------------------
 
 	@Override

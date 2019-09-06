@@ -71,6 +71,11 @@ package org.springframework.core.env;
 public interface Environment extends PropertyResolver {
 
 	/**
+	 * 返回这个环境明确被激活的配置文件集合。
+	 * 例如基于开发环境，配置文件用于创建有条件注册BeanDefinition的逻辑分组。
+	 * 集合中被激活的配置文件可能作为一个系统属性，或者没有明确指定激活的配置文件，
+	 * 那么默认的配置文件将自动被激活
+	 * 指定激活配置文件`spring.profiles.active='dev'`
 	 * Return the set of profiles explicitly made active for this environment. Profiles
 	 * are used for creating logical groupings of bean definitions to be registered
 	 * conditionally, for example based on deployment environment.  Profiles can be
@@ -86,6 +91,7 @@ public interface Environment extends PropertyResolver {
 	String[] getActiveProfiles();
 
 	/**
+	 * 当配置文件没有被明确设置，那么返回默认激活的配置文件集合
 	 * Return the set of profiles to be active by default when no active profiles have
 	 * been set explicitly.
 	 * @see #getActiveProfiles
@@ -95,6 +101,12 @@ public interface Environment extends PropertyResolver {
 	String[] getDefaultProfiles();
 
 	/**
+	 * 返回给定的一个或多个配置文件是否处于激活状态，
+	 * 或者，假设没有明确激活的配置文件，在默认配置文件集合中，包含给定的一个或多个配置文件
+	 * 如果一个参数profile以`!`开头表示逻辑是颠倒的，
+	 * 也就是说，如果给给定的profile配置文件是未激活的，方法将返回true。
+	 * 例如：`env.acceptsProfiles("p1","!p2")`,如果profile`p1`是激活的,profile`p2`是未激活的，方法将返回true
+	 * 如果参数profiles为空，抛出IllegalArgumentException
 	 * Return whether one or more of the given profiles is active or, in the case of no
 	 * explicit active profiles, whether one or more of the given profiles is included in
 	 * the set of default profiles. If a profile begins with '!' the logic is inverted,

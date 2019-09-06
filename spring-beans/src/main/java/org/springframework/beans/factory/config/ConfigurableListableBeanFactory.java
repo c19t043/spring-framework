@@ -50,6 +50,12 @@ public interface ConfigurableListableBeanFactory
 	void ignoreDependencyType(Class<?> type);
 
 	/**
+	 * 自动注入依赖配置时，忽略给定依赖接口
+	 * 这通常被应用上下文，用其他方式解决注册依赖
+	 * 就像BeanFactory通过BeanFactoryAware，
+	 * 或者ApplicationContext通过ApplicationContextAware
+	 * 默认情况下，仅BeanFactoryAware接口是忽视的。
+	 * 为了进一步的类型忽略，对于每个类型调用这个方法
 	 * Ignore the given dependency interface for autowiring.
 	 * <p>This will typically be used by application contexts to register
 	 * dependencies that are resolved in other ways, like BeanFactory through
@@ -63,6 +69,11 @@ public interface ConfigurableListableBeanFactory
 	void ignoreDependencyInterface(Class<?> ifc);
 
 	/**
+	 * 用相关自动装配值，注册一个指定依赖类型
+	 * 这是为factory/context引用设计的，假设可自动状态，但在工厂中没有被定义作为bean。
+	 * 例如，一个ApplicationContext类型的依赖解析为bean所在的ApplicationContext实例
+	 * 注意：在简单BeanFactory中，没有这种注册的默认类型，甚至都没有BeanFactory接口自己
+	 *
 	 * Register a special dependency type with corresponding autowired value.
 	 * <p>This is intended for factory/context references that are supposed
 	 * to be autowirable but are not defined as beans in the factory:
