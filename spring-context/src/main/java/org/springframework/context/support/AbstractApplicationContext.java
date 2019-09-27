@@ -162,6 +162,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Logger used by this class. Available to subclasses.
+	 * 子类，使用这个类中的日志
 	 */
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -209,6 +210,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Synchronization monitor for the "refresh" and "destroy"
+	 * 为刷新和销毁使用的同步监视器
 	 */
 	private final Object startupShutdownMonitor = new Object();
 
@@ -345,6 +347,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Return the {@code Environment} for this application context in configurable
 	 * form, allowing for further customization.
 	 * <p>If none specified, a default environment will be initialized via
+	 * 在可配置表格中为这个上下返回Environment，允许更多自定义配置
+	 * 如果默认指定实现，一个默认的environment将被初始化
 	 * {@link #createEnvironment()}.
 	 */
 	@Override
@@ -655,6 +659,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Initialize any placeholder property sources in the context environment
 		// 在上下文环境中，初始化任意占位符属性源
+		// 默认空实现
 		initPropertySources();
 
 		// Validate that all properties marked as required are resolvable
@@ -671,12 +676,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * <p>Replace any stub property sources with actual instances.
+	 * 用实际的实例替换一些残余属性源
 	 *
 	 * @see org.springframework.core.env.PropertySource.StubPropertySource
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources
 	 */
 	protected void initPropertySources() {
 		// For subclasses: do nothing by default.
+		// 对于子类，默认情况下什么都不做
 	}
 
 	/**

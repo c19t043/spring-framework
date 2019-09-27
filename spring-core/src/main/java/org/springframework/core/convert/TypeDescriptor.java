@@ -546,7 +546,8 @@ public class TypeDescriptor implements Serializable {
 			type = Object.class;
 		}
 		TypeDescriptor desc = commonTypesCache.get(type);
-		return (desc != null ? desc : new TypeDescriptor(ResolvableType.forClass(type), null, null));
+		return (desc != null ? desc :
+				new TypeDescriptor(ResolvableType.forClass(type), null, null));
 	}
 
 	/**
